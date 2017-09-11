@@ -2,9 +2,12 @@
     <string name="app_name">Developers Information</string>
     <string name="connection_absent">No Internet Connection</string>
     <string name="developer_absent">No Developer in Lagos(Nigeria) found</string>
-    <string name="list_developer">Developer in Lagos(Nigeria)</string>
-    <string name="developer_username">GitHub Username: </string>
-    <string name="developer_url">GitHub User Url:  </string>
+    <string name="list_developer">Developer Details</string>
+    <string name="developer_username">Username: </string>
+    <string name="username">Username</string>
+    <string name="developer_url">Website</string>
     <string name="space"> </string>
     <string name="user_name">GitHub User</string>
+    <string name="share">Share</string>
+    <string name="image_description">The image displayed is the Developer\'s image.</string>
 </resources>

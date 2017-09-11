@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorText">#4B0082</color>
+    <color name="colorTitle">#008080</color>
+    <color name="wheat">#FFFACD</color>
+    <color name="mint_cream">#F5FFFA</color>
+    <color name="azure">#F0FFFF</color>
 </resources>

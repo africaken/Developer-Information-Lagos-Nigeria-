@@ -20,21 +20,25 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
-    implements LoaderManager.LoaderCallbacks<List<DeveloperLagos>> {
+        implements LoaderManager.LoaderCallbacks<List<DeveloperLagos>> {
 
     private static final int DEVELOPERLAGOS_LOADER_ID = 1;
 
-    /** TextView that is displayed when the list is empty */
+    /**
+     * TextView that is displayed when the list is empty
+     */
     private TextView connectionAbsentView;
 
-    /**  Progress Indicator that is displayed when fetching lagosDeveloper */
+    /**
+     * Progress Indicator that is displayed when fetching lagosDeveloper
+     */
     private ProgressBar progressIndicator;
 
     /**
      * URL to query the GITHUB api for Developers in Lagos(Nigeria) for data
      */
     private static final String GITHUB_REQUEST_URL =
-            "https://api.github.com/search/users?q=location:Lagos";
+            "https://api.github.com/search/users?q=location:Lagos&per_page=100";
 
     /**
      * Adapter for the list of DeveloperLagos
@@ -68,13 +72,14 @@ public class MainActivity extends AppCompatActivity
                 // Create a new intent to view the developer details
                 Intent developerDetailsIntent = new Intent(MainActivity.this, DeveloperDetails.class);
 
-                developerDetailsIntent.putExtra("gitHubUsername", currentDeveloperLagos.getGitHubUsername());
-                developerDetailsIntent.putExtra("gitHubDeveloperUrl", currentDeveloperLagos.getGitHubDeveloperUrl());
-                developerDetailsIntent.putExtra("gitHubAvatarUrl", currentDeveloperLagos.getGitHubImageUrl());
+                if (currentDeveloperLagos != null) {
+                    developerDetailsIntent.putExtra("gitHubUsername", currentDeveloperLagos.getGitHubUsername());
+                    developerDetailsIntent.putExtra("gitHubDeveloperUrl", currentDeveloperLagos.getGitHubDeveloperUrl());
+                    developerDetailsIntent.putExtra("gitHubAvatarUrl", currentDeveloperLagos.getGitHubImageUrl());
+                }
 
                 // Send the intent to launch a new activity
                 startActivity(developerDetailsIntent);
-
             }
         });
 
@@ -96,17 +101,17 @@ public class MainActivity extends AppCompatActivity
             // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
             // because this activity implements the LoaderCallbacks interface).
             getSupportLoaderManager().initLoader(DEVELOPERLAGOS_LOADER_ID, null, this).forceLoad();
+
+            // Progress Indicator shows that the data is being fetched
             progressIndicator = (ProgressBar) findViewById(R.id.loading_spinner);
             progressIndicator.setIndeterminate(true);
             progressIndicator.setVisibility(View.VISIBLE);
-        }
-        else{
-            View progressIndicator = findViewById(R.id.loading_spinner);
+        } else {
+            // If there is no network connection
+            progressIndicator = (ProgressBar) findViewById(R.id.loading_spinner);
             progressIndicator.setVisibility(View.GONE);
             connectionAbsentView.setText(getString(R.string.connection_absent));
         }
-        // Set an item click listener on the ListView,
-        developerDetailListenerOnButton();
     }
 
     @Override
@@ -119,7 +124,7 @@ public class MainActivity extends AppCompatActivity
     public void onLoadFinished(Loader<List<DeveloperLagos>> loader, List<DeveloperLagos> data) {
 
         // Hide loading indicator because the data has been loaded
-        progressIndicator =(ProgressBar) findViewById(R.id.loading_spinner);
+        progressIndicator = (ProgressBar) findViewById(R.id.loading_spinner);
         progressIndicator.setIndeterminate(false);
         progressIndicator.setVisibility(View.GONE);
 
@@ -140,10 +145,5 @@ public class MainActivity extends AppCompatActivity
     public void onLoaderReset(Loader<List<DeveloperLagos>> loader) {
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
-    }
-
-    public void developerDetailListenerOnButton(){
-
-
     }
 }

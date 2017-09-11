@@ -24,7 +24,7 @@ public class Developer_Utils {
     /**
      * Tag for the log messages
      */
-    public static final String LOG_TAG = Developer_Utils.class.getSimpleName();
+    private static final String LOG_TAG = Developer_Utils.class.getSimpleName();
 
     /**
      * Create a private constructor because no one should ever create a {@link Developer_Utils} object.
@@ -35,7 +35,7 @@ public class Developer_Utils {
     }
 
     /**
-     * Query the USGS dataset and return a list of {@link DeveloperLagos} objects.
+     * Query the GitHub dataset and return a list of {@link DeveloperLagos} objects.
      */
     public static List<DeveloperLagos> fetchDeveloperLagosData(String requestUrl) {
 
@@ -50,10 +50,10 @@ public class Developer_Utils {
             e.printStackTrace();
         }
 
-        // Extract relevant fields from the JSON response and create a list of {@link Earthquake}s
+        // Extract relevant fields from the JSON response and create a list of {@link DeveloperLagos}s
         List<DeveloperLagos> developerLagos = extractFeatureFromJson(jsonResponse);
 
-        // Return the list of {@link Earthquake}s
+        // Return the list of {@link DeveloperLagos}s
         return developerLagos;
     }
 
@@ -142,7 +142,7 @@ public class Developer_Utils {
             return null;
         }
 
-        // Create an empty ArrayList that we can start adding earthquakes to
+        // Create an empty ArrayList that we can start adding lagosDeveloper to
         List<DeveloperLagos> lagosDeveloper = new ArrayList<>();
 
         // Try to parse the JSON response string. If there's a problem with the way the JSON
@@ -176,7 +176,7 @@ public class Developer_Utils {
                 // from the JSON response.
                 DeveloperLagos developer = new DeveloperLagos(username, developer_url, image_url);
 
-                // Add the new {@link Earthquake} to the list of earthquakes.
+                // Add the new {@link DeveloperLagos} to the list of lagosDeveloper.
                 lagosDeveloper.add(developer);
             }
         } catch (JSONException e) {

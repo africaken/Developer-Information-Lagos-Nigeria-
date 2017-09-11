@@ -2,6 +2,7 @@ package com.example.android.developersinformation;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,6 @@ import com.squareup.picasso.Picasso;
 **/
 
 public class DeveloperLagosAdapter extends ArrayAdapter<DeveloperLagos> {
-
-    private String username = "";
 
     private final Context mContext;
 
@@ -51,8 +50,9 @@ public class DeveloperLagosAdapter extends ArrayAdapter<DeveloperLagos> {
      * @param parent      The parent ViewGroup that is used for inflation.
      * @return The View for the position in the AdapterView.
      */
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         // Check if the existing view is being reused, otherwise inflate the view
         View listItemView = convertView;
         if (listItemView == null) {
@@ -67,20 +67,24 @@ public class DeveloperLagosAdapter extends ArrayAdapter<DeveloperLagos> {
         TextView usernameTextView = (TextView) listItemView.findViewById(R.id.developer_username);
         // Get the Developer Username from the current DeveloperLagos object and
         // set this text on the usernameTextView
-        username = mContext.getString(R.string.developer_username) + " " + currentDeveloperLagos.getGitHubUsername();
+        String username = null;
+        if (currentDeveloperLagos != null) {
+            username = mContext.getString(R.string.developer_username) + " " + currentDeveloperLagos.getGitHubUsername();
+        }
         usernameTextView.setText(username);
-
-        // Find the TextView in the list_item.xml layout with the ID developer_username
-        TextView urlTextView = (TextView) listItemView.findViewById(R.id.developer_url);
-        // Get the Developer Url from the current DeveloperLagos object and
-        // set this text on the urlTextView
-        urlTextView.setText(currentDeveloperLagos.getGitHubDeveloperUrl());
 
         // Find the ImageView in the list_item.xml layout with the ID list_item_icon
         ImageView pictureView = (ImageView) listItemView.findViewById(R.id.developer_image);
         // Get the Developer AvatarUrl from the current DeveloperLagos object and
         // use the Picasso library Library to get the image from the Developer AvatarUrl
-        Picasso.with(mContext).load(currentDeveloperLagos.getGitHubImageUrl()).placeholder(R.drawable.image).resize(64, 64).into(pictureView);
+        if (currentDeveloperLagos != null) {
+            Picasso.with(mContext)
+                    .load(currentDeveloperLagos.getGitHubImageUrl()) // Load the image
+                    .placeholder(R.drawable.image) // Image resource that act as placeholder
+                    .error(R.drawable.error) // Image resource for error
+                    .resize(96, 96) // Post processing - Resizing the image
+                    .into(pictureView); // View where image is loaded
+        }
 
         // Return the whole list item layout (containing 2 TextViews and an ImageView)
         // so that it can be shown in the ListView
